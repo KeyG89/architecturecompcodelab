@@ -27,4 +27,6 @@ public interface WeatherDao {
     @Query("SELECT * FROM weather WHERE date > :date")
     LiveData<List<WeatherEntry>> getUpcomingWeatherAfterDate(Date date);
 
+    @Query("SELECT id, weatherIconId, date, min, max FROM weather WHERE date >= :date")
+    LiveData<List<ListWeatherEntry>> getCurrentWeatherForecasts(Date date);
 }

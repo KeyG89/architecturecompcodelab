@@ -21,6 +21,7 @@ import android.arch.lifecycle.MutableLiveData;
 import android.util.Log;
 
 import com.example.android.sunshine.AppExecutors;
+import com.example.android.sunshine.data.database.ListWeatherEntry;
 import com.example.android.sunshine.data.database.WeatherDao;
 import com.example.android.sunshine.data.database.WeatherEntry;
 import com.example.android.sunshine.data.network.WeatherNetworkDataSource;
@@ -45,8 +46,10 @@ public class SunshineRepository {
     private boolean mInitialized = false;
     private final MutableLiveData<WeatherEntry[]> mDownloadedWeatherForecasts;
 
-    public MutableLiveData<WeatherEntry[]> getCurrentWeatherForecasts() {
-        return mDownloadedWeatherForecasts;
+    public LiveData<List<ListWeatherEntry>> getCurrentWeatherForecasts() {
+        initializeData();
+        Date today = SunshineDateUtils.getNormalizedUtcDateForToday();
+        return mWeatherDao.getCurrentWeatherForecasts(today);
     }
 
     private SunshineRepository(WeatherDao weatherDao,
